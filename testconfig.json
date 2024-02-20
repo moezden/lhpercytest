@@ -1,0 +1,7 @@
+{
+    "headless": true,
+    "browser": "chrome",
+    "defaultElementTimeout": 30000,
+    "homePageUrl": "https://www.lufthansa.com",
+    "flightSearchPageUrl": "https://www.lufthansa.com/in/en/flight-search"
+}

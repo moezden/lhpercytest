@@ -1,0 +1,36 @@
+name: Visual test
+
+# Controls when the action will run.
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+
+      - name: Create .env file
+        run: |
+          echo PERCY_TOKEN=${{secrets.PERCY_TOKEN}} >> .env
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Execute tests
+        run: npx percy exec -- npm test
+
+      - name: Archive the test results
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: test-report
+          path: test-results/
+          if-no-files-found: error
+
